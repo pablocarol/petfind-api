@@ -13,6 +13,6 @@ app.get("/locations", all);
 app.get("/getLastLocation", getLastLocation);
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`connected to remote database ${process.env.MYSQL_HOST}:${process.env.MYSQL_PORT}`);
   console.log(`http://localhost:${port}/locations`);
 });
