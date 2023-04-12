@@ -1,34 +1,24 @@
-var mysql = require('mysql');
+const mysql = require('mysql2');
 
-var con = mysql.createConnection({
-  host: "192.168.3.151",
-  port: "3306",
-  user: "pcarol",
-  password: "root",
-  database: "petfind"
-});
+var pool = mysql.createPool({
+  host: process.env.MYSQL_HOST,
+  port: process.env.MYSQL_PORT,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DB,
+}).promise();
 
 function getLastLocation() {
-    con.connect(function(err) {
-        if (err) throw err;
-        con.query("SELECT * FROM coordinate_log ORDER BY coordinate_id DESC LIMIT 1", function (err, result, fields) {
-          if (err) throw err;
-          return result;
-        });
-      });
+  const result = pool.query("SELECT lat, lon FROM coordinate_log ORDER BY coordinate_id DESC LIMIT 1");
+  return result;
 }
 
 function all() {
-    con.connect(function(err) {
-        if (err) throw err;
-        con.query("SELECT * FROM coordinate_log", function (err, result, fields) {
-          if (err) throw err;
-          return result;
-        });
-      });
+  const result = pool.query("SELECT * FROM coordinate_log");
+  return result;
 }
 
 module.exports = {
-    getLastLocation,
-    all
+  getLastLocation,
+  all
 }
