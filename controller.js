@@ -34,8 +34,19 @@ async function getLocationsByDate(req, res) {
   }
 }
 
+async function getBattery(req, res) {
+  try {
+    const rows = await db.getBattery();
+    const row = rows[0].pop();
+    res.json(row.percent_charged);
+  } catch (ex) {
+    res.status(500).json({});
+  }
+}
+
 module.exports = {
   getLastLocation,
   all,
-  getLocationsByDate
+  getLocationsByDate,
+  getBattery
 };
