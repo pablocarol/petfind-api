@@ -20,8 +20,14 @@ function getLocationsByDate(dateIni, dateEnd) {
   return pool.query(`SELECT * FROM coordinate_log WHERE time_stamp >= DATE_FORMAT('${dateIni}', '%Y-%m-%d %H:%i:%s') AND time_stamp <= DATE_FORMAT('${dateEnd}', '%Y-%m-%d %H:%i:%s')`);
 }
 
+function getBattery() {
+  console.log("aaaa");
+  return pool.query("SELECT * FROM battery_status");
+}
+
 module.exports = {
   getLastLocation,
   all,
-  getLocationsByDate
+  getLocationsByDate,
+  getBattery
 }
